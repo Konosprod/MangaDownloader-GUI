@@ -129,8 +129,7 @@ namespace WindowsFormsApplication1
         private void parseMF(String u)
         {
             String loc = u.Remove(u.Length - 1);
-            loc = loc.Remove(0, loc.LastIndexOf('/'));
-            loc = loc.Remove(0, 1);
+            loc = loc.Remove(0, loc.LastIndexOf('/')+1);
             path += "/" + loc + "/" ;
 
             Directory.CreateDirectory(path);
@@ -153,6 +152,27 @@ namespace WindowsFormsApplication1
 
         private void parseMH(String u)
         {
+            String loc = u.Remove(u.Length - 1);
+            loc = loc.Remove(0, loc.LastIndexOf('/')+1);
+            path += "/" + loc + "/";
+
+            Directory.CreateDirectory(path);
+
+            WebClient wb = new WebClient();
+            wb.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+
+            String src = wb.DownloadString(u);
+
+            Regex r = new Regex(u + "[A-Za-z0-9_-]*/[A-Za-z0-9_/-]*\"");
+
+            foreach (Match m in r.Matches(src))
+            {
+                String blah = m.ToString();
+                chapters.Add(blah.Remove(blah.Length - 1));
+            }
+
+            listChapter l = new listChapter(chapters, 5, path);
+            l.Show(this);
 
         }
 

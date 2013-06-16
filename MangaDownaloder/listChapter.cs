@@ -199,6 +199,47 @@ namespace WindowsFormsApplication1
 
         private void mhDownloader(List<String> c, String path)
         {
+            WebClient wb = new WebClient();
+            List<String> pages = new List<String>();
+            wb.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+            String dir = "";
+
+            Regex r = new Regex("<option value=\"[A-Za-z0-9:._/-]*\"");
+            Regex image = new Regex("img.src = \"[A-Za-z0-9:._/-]*.jpg");
+
+            for (int i = 0; i < c.Count; i++)
+            {
+                if (checkedListBox1.GetItemChecked(i))
+                {
+                    String beg = c[i];
+                    beg = beg.Remove(beg.Length - 1);
+                    dir = path + "/" + beg.Substring(beg.LastIndexOf('/') + 1) + "/";
+
+                    Directory.CreateDirectory(dir);
+
+                    String src = wb.DownloadString(c[i]);
+
+                    foreach (Match m in r.Matches(src))
+                    {
+                        String blah = m.ToString();
+                        blah = blah.Remove(blah.Length - 1);
+                        blah = blah.Remove(0, blah.LastIndexOf('\"'));
+                        blah = blah.Remove(0, 1);
+                        pages.Add(blah);
+                    }
+
+                    pages = pages.Distinct().ToList();
+
+                    for(int j = 0; j < pages.Count; j++)
+                    {
+                        src = wb.DownloadString(pages[j]);
+                        wb.DownloadFile(image.Match(src).ToString().Remove(0, 11), dir + "/" + (j+1).ToString() + ".jpg");
+                    }
+
+                    pages.Clear();
+
+                }
+            }
 
         }
 
