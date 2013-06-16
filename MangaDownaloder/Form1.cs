@@ -91,6 +91,7 @@ namespace WindowsFormsApplication1
         {
             String loc = "";
             Regex r;
+            Regex r2;
             loc = u;
             if (u.Contains(".html"))
             {
@@ -105,17 +106,16 @@ namespace WindowsFormsApplication1
 
             WebClient w = new WebClient();
             String src = w.DownloadString(u);
-            if (u.Contains(".html"))
-            {
-                r = new Regex("/[-0-9]*/" + loc + "/[-.A-Za-z0-9]*\">[ -.:<>/A-Z_a-z0-9]*</td>");
-            }
-            else
-            {
-                r = new Regex("/" + loc + "/[0-9]*\">[ -.:<>/A-Z_a-z0-9]*</td>");
-            }
+            r = new Regex("/[-0-9]*/" + loc + "/[-.A-Za-z0-9]*\">[ -.:<>/A-Z_a-z0-9]*</td>");
+            r2 = new Regex("/" + loc + "/[0-9]*\">[ -.:<>/A-Z_a-z0-9]*</td>");
 
 
             foreach (Match m in r.Matches(src))
+            {
+                chapters.Add(m.ToString().Remove(m.ToString().LastIndexOf("\"")));
+            }
+
+            foreach (Match m in r2.Matches(src))
             {
                 chapters.Add(m.ToString().Remove(m.ToString().LastIndexOf("\"")));
             }
@@ -124,6 +124,36 @@ namespace WindowsFormsApplication1
             l.Show(this);
             //chapters.Clear();
                 
+        }
+
+        private void parseMF(String u)
+        {
+            String loc = u.Remove(u.Length - 1);
+            loc = loc.Remove(0, loc.LastIndexOf('/'));
+            loc = loc.Remove(0, 1);
+            path += "/" + loc + "/" ;
+
+            Directory.CreateDirectory(path);
+
+            WebClient wb = new WebClient();
+            wb.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+            String src = wb.DownloadString(u);
+
+            Regex r = new Regex(u + "[A-Za-z0-9_/]*(.html)");
+
+            foreach (Match m in r.Matches(src))
+            {
+                chapters.Add(m.ToString());
+            }
+
+            listChapter l = new listChapter(chapters, 4, path);
+            l.Show(this);
+            //chapters.Clear();
+        }
+
+        private void parseMH(String u)
+        {
+
         }
 
         private void parseMangaPage(String u)
@@ -141,6 +171,14 @@ namespace WindowsFormsApplication1
             else if (u.Contains("reader"))
             {
                 parseMR(u);
+            }
+            else if (u.Contains("fox"))
+            {
+                parseMF(u);
+            }
+            else if (u.Contains("here"))
+            {
+                parseMH(u);
             }
 
             else

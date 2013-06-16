@@ -197,6 +197,40 @@ namespace WindowsFormsApplication1
             MessageBox.Show("Téléchargements terminés !", "Terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        private void mhDownloader(List<String> c, String path)
+        {
+
+        }
+
+        void mfDownloader(List<String> c, String path)
+        {
+            WebClient wb = new WebClient();
+            wb.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+            String dir = "";
+            String beg = "";
+
+            Regex r = new Regex("of [0-9]*");
+            Regex image = new Regex("'[A-Za-z0-9/:._-]*.jpg");
+
+            for (int i = 0; i < c.Count; i++)
+            {
+                if (checkedListBox1.GetItemChecked(i))
+                {
+                    beg = c[i].Remove(c[i].LastIndexOf('/'));
+                    dir = path + beg.Substring(beg.LastIndexOf('/')+1) + "/";
+                    Directory.CreateDirectory(dir);
+                    String src = wb.DownloadString(c.ElementAt(i));
+                    for (int j = 0; j < int.Parse(r.Match(src).ToString().Remove(0, 3)); j++)
+                    {
+                        src = wb.DownloadString(beg + "/" + (j+1).ToString() + ".html");
+                        wb.DownloadFile(image.Match(src).ToString().Substring(image.Match(src).ToString().LastIndexOf('\'')+1), dir + (j+1).ToString() + ".jpg");
+
+                    }
+                }
+            }
+
+        }
+
         private void button3_Click(object sender, EventArgs e)
         {
             switch (site)
@@ -211,6 +245,14 @@ namespace WindowsFormsApplication1
 
                 case 3:
                     lelDownloader(chapters, path);
+                    break;
+                
+                case 4:
+                    mfDownloader(chapters, path);
+                    break;
+
+                case 5:
+                    mhDownloader(chapters, path);
                     break;
             }
         }
