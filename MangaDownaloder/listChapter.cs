@@ -250,7 +250,7 @@ namespace WindowsFormsApplication1
             String dir = "";
             String beg = "";
 
-            Regex r = new Regex("of [0-9]*");
+            Regex r = new Regex("total_pages=[0-9]*");
             Regex image = new Regex("'[A-Za-z0-9/:._-]*.jpg");
 
             for (int i = 0; i < c.Count; i++)
@@ -261,7 +261,9 @@ namespace WindowsFormsApplication1
                     dir = path + beg.Substring(beg.LastIndexOf('/')+1) + "/";
                     Directory.CreateDirectory(dir);
                     String src = wb.DownloadString(c.ElementAt(i));
-                    for (int j = 0; j < int.Parse(r.Match(src).ToString().Remove(0, 3)); j++)
+                    //MessageBox.Show(src);
+                    MessageBox.Show(r.Match(src).ToString());
+                    for (int j = 0; j < int.Parse(r.Match(src).ToString().Remove(0, 12)); j++)
                     {
                         src = wb.DownloadString(beg + "/" + (j+1).ToString() + ".html");
                         wb.DownloadFile(image.Match(src).ToString().Substring(image.Match(src).ToString().LastIndexOf('\'')+1), dir + (j+1).ToString() + ".jpg");
