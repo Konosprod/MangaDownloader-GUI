@@ -35,12 +35,16 @@
             this.buttonBrowse = new System.Windows.Forms.Button();
             this.downloadButton = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fichierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mettreÀJourToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(12, 38);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(83, 13);
             this.label1.TabIndex = 0;
@@ -48,15 +52,15 @@
             // 
             // urlEntry
             // 
-            this.urlEntry.Location = new System.Drawing.Point(102, 10);
+            this.urlEntry.Location = new System.Drawing.Point(102, 35);
             this.urlEntry.Name = "urlEntry";
-            this.urlEntry.Size = new System.Drawing.Size(170, 20);
+            this.urlEntry.Size = new System.Drawing.Size(176, 20);
             this.urlEntry.TabIndex = 1;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 51);
+            this.label2.Location = new System.Drawing.Point(13, 64);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(48, 13);
             this.label2.TabIndex = 2;
@@ -64,14 +68,14 @@
             // 
             // directoryEntry
             // 
-            this.directoryEntry.Location = new System.Drawing.Point(102, 48);
+            this.directoryEntry.Location = new System.Drawing.Point(102, 61);
             this.directoryEntry.Name = "directoryEntry";
             this.directoryEntry.Size = new System.Drawing.Size(140, 20);
             this.directoryEntry.TabIndex = 3;
             // 
             // buttonBrowse
             // 
-            this.buttonBrowse.Location = new System.Drawing.Point(242, 48);
+            this.buttonBrowse.Location = new System.Drawing.Point(248, 61);
             this.buttonBrowse.Name = "buttonBrowse";
             this.buttonBrowse.Size = new System.Drawing.Size(30, 20);
             this.buttonBrowse.TabIndex = 4;
@@ -81,13 +85,38 @@
             // 
             // downloadButton
             // 
-            this.downloadButton.Location = new System.Drawing.Point(102, 74);
+            this.downloadButton.Location = new System.Drawing.Point(102, 87);
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.Size = new System.Drawing.Size(96, 23);
             this.downloadButton.TabIndex = 5;
             this.downloadButton.Text = "Téléchargement";
             this.downloadButton.UseVisualStyleBackColor = true;
             this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fichierToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(312, 24);
+            this.menuStrip1.TabIndex = 6;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fichierToolStripMenuItem
+            // 
+            this.fichierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mettreÀJourToolStripMenuItem});
+            this.fichierToolStripMenuItem.Name = "fichierToolStripMenuItem";
+            this.fichierToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.fichierToolStripMenuItem.Text = "Fichier";
+            // 
+            // mettreÀJourToolStripMenuItem
+            // 
+            this.mettreÀJourToolStripMenuItem.Name = "mettreÀJourToolStripMenuItem";
+            this.mettreÀJourToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.mettreÀJourToolStripMenuItem.Text = "Mettre à jour";
+            this.mettreÀJourToolStripMenuItem.Click += new System.EventHandler(this.mettreÀJourToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -100,8 +129,12 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.urlEntry);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Manga Downloader";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -116,6 +149,9 @@
         private System.Windows.Forms.Button buttonBrowse;
         private System.Windows.Forms.Button downloadButton;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fichierToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mettreÀJourToolStripMenuItem;
     }
 }
 

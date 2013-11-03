@@ -241,6 +241,8 @@ namespace WindowsFormsApplication1
                 }
             }
 
+            MessageBox.Show("Téléchargements terminés !", "Terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
 
         void mfDownloader(List<String> c, String path)
@@ -272,6 +274,47 @@ namespace WindowsFormsApplication1
                 }
             }
 
+            MessageBox.Show("Téléchargements terminés !", "Terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        private void animeaDownloader(List<String> chapters, String path)
+        {
+            WebClient wb = new WebClient();
+            wb.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+
+            String dir =  "";
+            String beg = "http://manga.animea.net";
+
+            Regex pageCount = new Regex("pages=[0-9]*");
+            Regex img = new Regex("og:image\" content=\".*\"");
+
+            for (int i = 0; i < chapters.Count; i++)
+            {
+                if (checkedListBox1.GetItemChecked(i))
+                {
+                    Regex title = new Regex("chapter-[0-9]*");
+                    dir = title.Match(chapters[i]).ToString();
+                    Directory.CreateDirectory(path + "/" + dir);
+
+                    String src = wb.DownloadString(beg + chapters[i]);
+
+                    for (int j = 1; j < int.Parse(pageCount.Match(src).ToString().Remove(0, 6)); j++)
+                    {
+                        string tmp = chapters[i].Remove(chapters[i].LastIndexOf("."));
+                        tmp += "-page-" + j.ToString() + ".html";
+                        src = wb.DownloadString(beg + tmp);
+                        String urlImg = img.Match(src).ToString().Remove(0, 19);
+                        urlImg = urlImg.Remove(urlImg.LastIndexOf('\"'));
+
+                        wb.DownloadFile(urlImg, path + "/" + dir + "/" + j.ToString() + ".jpg");
+                    }
+
+                }
+            }
+
+            MessageBox.Show("Téléchargements terminés !", "Terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -296,6 +339,10 @@ namespace WindowsFormsApplication1
 
                 case 5:
                     mhDownloader(chapters, path);
+                    break;
+
+                case 6:
+                    animeaDownloader(chapters, path);
                     break;
             }
         }

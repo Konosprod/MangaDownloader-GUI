@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.IO;
 
+
 namespace WindowsFormsApplication1
 {
     public partial class Form1 : Form
@@ -150,6 +151,31 @@ namespace WindowsFormsApplication1
             //chapters.Clear();
         }
 
+        private void parseAnimea(String u)
+        {
+            String loc = u.Remove(u.Length - 5);
+            loc = loc.Substring(loc.LastIndexOf('/')+1);
+            path += "/" + loc + "/";
+
+            Directory.CreateDirectory(path);
+
+            WebClient wb = new WebClient();
+            wb.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+            String src = wb.DownloadString(u);
+
+            Regex r = new Regex("href=\"/[ -.:<>/A-Z_a-z0-9]*.html\" id=\"ch_[0-9]*\"");
+
+            foreach (Match m in r.Matches(src))
+            {
+                String tmp = m.ToString().Remove(0, 6);
+                tmp = tmp.Remove(tmp.LastIndexOf("html")+4);
+                chapters.Add(tmp);
+            }
+
+            listChapter l = new listChapter(chapters, 6, path);
+            l.Show(this);
+        }
+
         private void parseMH(String u)
         {
             String loc = u.Remove(u.Length - 1);
@@ -200,6 +226,10 @@ namespace WindowsFormsApplication1
             {
                 parseMH(u);
             }
+            else if (u.Contains("animea"))
+            {
+                parseAnimea(u);
+            }
 
             else
             {
@@ -222,6 +252,17 @@ namespace WindowsFormsApplication1
             url = urlEntry.Text;
 
             parseMangaPage(url);
+        }
+
+        private void mettreÀJourToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(MessageBox.Show("Voulez-vous mettre l'application à jour ?", "Confirmation", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                string args = "MangaDownloader ";
+                args += System.AppDomain.CurrentDomain.FriendlyName;
+                System.Diagnostics.Process.Start("Updater.exe", args);
+                Environment.Exit(0);
+            }
         }
     }
 }
