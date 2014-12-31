@@ -176,6 +176,40 @@ namespace WindowsFormsApplication1
             l.Show(this);
         }
 
+        private void parseMangapark(string u)
+        {
+            WebClient wb = new WebClient();
+            string src = wb.DownloadString(u);
+        }
+
+        private void parseMangaGo(String u)
+        {
+            String loc = u.Remove(u.Length - 1);
+            loc = loc.Remove(0, loc.LastIndexOf('/') + 1);
+            path += "/" + loc + "/";
+
+            Directory.CreateDirectory(path);
+
+            WebClient wb = new WebClient();
+
+            string src = wb.DownloadString(u);
+
+            Regex r = new Regex("<a target=\"_self\" class=\"chico\" href=\"(.*)");
+
+            MatchCollection c = r.Matches(src);
+            foreach(Match m in c)
+            {
+                string s = m.Groups[1].ToString().Remove(m.Groups[1].ToString().LastIndexOf('"'));
+                chapters.Add(s);
+            }
+
+            chapters = chapters.Distinct().ToList();
+
+            listChapter l = new listChapter(chapters, 7, path);
+            l.ShowDialog();
+
+        }
+
         private void parseMH(String u)
         {
             String loc = u.Remove(u.Length - 1);
@@ -230,6 +264,10 @@ namespace WindowsFormsApplication1
             {
                 parseAnimea(u);
             }
+            else if(u.Contains("mangago"))
+            {
+                parseMangaGo(u);
+            }
 
             else
             {
@@ -263,6 +301,11 @@ namespace WindowsFormsApplication1
                 System.Diagnostics.Process.Start("Updater.exe", args);
                 Environment.Exit(0);
             }
+        }
+
+        private void sitesSupportésToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Sites supportés");
         }
     }
 }

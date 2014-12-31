@@ -37,7 +37,7 @@
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fichierToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mettreÀJourToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sitesSupportésToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -106,17 +106,17 @@
             // fichierToolStripMenuItem
             // 
             this.fichierToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mettreÀJourToolStripMenuItem});
+            this.sitesSupportésToolStripMenuItem});
             this.fichierToolStripMenuItem.Name = "fichierToolStripMenuItem";
             this.fichierToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.fichierToolStripMenuItem.Text = "Fichier";
             // 
-            // mettreÀJourToolStripMenuItem
+            // sitesSupportésToolStripMenuItem
             // 
-            this.mettreÀJourToolStripMenuItem.Name = "mettreÀJourToolStripMenuItem";
-            this.mettreÀJourToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.mettreÀJourToolStripMenuItem.Text = "Mettre à jour";
-            this.mettreÀJourToolStripMenuItem.Click += new System.EventHandler(this.mettreÀJourToolStripMenuItem_Click);
+            this.sitesSupportésToolStripMenuItem.Name = "sitesSupportésToolStripMenuItem";
+            this.sitesSupportésToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
+            this.sitesSupportésToolStripMenuItem.Text = "Sites supportés";
+            this.sitesSupportésToolStripMenuItem.Click += new System.EventHandler(this.sitesSupportésToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -151,7 +151,7 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fichierToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem mettreÀJourToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sitesSupportésToolStripMenuItem;
     }
 }
 

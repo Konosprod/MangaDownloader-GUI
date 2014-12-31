@@ -278,6 +278,44 @@ namespace WindowsFormsApplication1
 
         }
 
+        private void mangaparkDownloader(List<String> c, string p)
+        {
+            WebClient wb = new WebClient();
+        }
+
+        private void mangagoDownloader(List<String> chapters, String path)
+        {
+            WebClient wb = new WebClient();
+            Regex title = new Regex("chapter_name=\"([^\"]*)");
+            Regex totalPage = new Regex("total_pages=([0-9]*)");
+            Regex img = new Regex("og:image\" content=\"(.*)\"");
+
+            for(int i = 0; i < chapters.Count; i++)
+            {
+                if(checkedListBox1.GetItemChecked(i))
+                {
+                    string src = wb.DownloadString(chapters[i]);
+
+                    string name = title.Match(src).Groups[1].ToString();
+                    Directory.CreateDirectory(path + "/" + name + "/");
+                    int total = int.Parse(totalPage.Match(src).Groups[1].ToString());
+
+                    for(int j = 0; j < total; j++)
+                    {
+                        string s = wb.DownloadString(chapters[i] + (j + 1).ToString());
+                        //MessageBox.Show(chapters[i] + (j + 1).ToString());
+                        string urlImg = img.Match(s).Groups[1].ToString();
+
+                        wb.DownloadFile(urlImg, path + "/" + name + "/" + (j + 1).ToString() + ".jpg");
+
+                    }
+
+                }
+            }
+
+            MessageBox.Show("Téléchargements terminés !", "Terminé", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private void animeaDownloader(List<String> chapters, String path)
         {
             WebClient wb = new WebClient();
@@ -343,6 +381,10 @@ namespace WindowsFormsApplication1
 
                 case 6:
                     animeaDownloader(chapters, path);
+                    break;
+
+                case 7:
+                    mangagoDownloader(chapters, path);
                     break;
             }
         }
